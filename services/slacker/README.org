@@ -1,0 +1,78 @@
+* Slacker
+
+Send event to Slack via gRPC.
+
+* Setup
+** Requirements
++ Python 3.x
+
+** Settings
+1. Install necessary python libraries
+
+  #+BEGIN_SRC sh
+  $ pip -r install requirements/production.txt
+  #+END_SRC
+
+2. Setup your slack token, channel, and display name
+
+  #+BEGIN_SRC sh
+  $ cp settings.yml.sample settings.yml
+  $ vim settings.yml # - > Replace <YOUR_SLACK_TOKEN> to your slack token
+                     # - > Replace <CHANNEL> to your slack channel
+                     # - > Replace <USER_NAME> to display name
+  #+END_SRC
+
+** Launch slacker
+1. Launch slacker server
+
+  #+BEGIN_SRC sh
+  $ python slacker_server.py
+  #+END_SRC
+
+  Then launch and wait slacker server on =http://localhost:50051= .
+
+** Test
+1. Run test script
+
+  #+BEGIN_SRC sh
+  $ python slacker_test.py
+  #+END_SRC
+
+  Then camome_slack send test event to specified channel in following
+
+  #+BEGIN_SRC
+  Summary:Test event
+  Description:This is test
+  #+END_SRC
+
+* Information for developers
+** Settings for development environment
+1. Install necessary python libraries
+
+  #+BEGIN_SRC sh
+  $ pip -r install requirements/development.txt
+  #+END_SRC
+
+2. Setup your slack token, channel, and display name
+
+  #+BEGIN_SRC sh
+  $ cp settings.yml.sample settings.yml
+  $ vim settings.yml # - > Replace <YOUR_SLACK_TOKEN> to your slack token
+                     # - > Replace <CHANNEL> to your slack channel
+                     # - > Replace <USER_NAME> to display name
+  #+END_SRC
+
+** How to compile =.proto= file
+The following commands must execute in the "hiyoco/services/slacker/" .
+
+1. Compile =event.proto=
+
+  #+BEGIN_SRC sh
+  $ python -m grpc_tools.protoc -I../../proto/ --python_out=. --grpc_python_out=. ../../proto/hiyoco/calendar/event.proto
+  #+END_SRC
+
+2. Compile =service.proto=
+
+  #+BEGIN_SRC sh
+  $ python -m grpc_tools.protoc -I../../proto/ --python_out=. --grpc_python_out=. ../../proto/hiyoco/slacker/service.proto
+  #+END_SRC
