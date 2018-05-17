@@ -1,0 +1,74 @@
+* Sounder
+Say event using Voice Kit
+
+You can get the latest version from:
+- https://github.com/nomlab/hiyoco
+
+* Setup
+** Requirements
++ Python 3.x
+
+** Settings
+1. Get source code
+  #+BEGIN_SRC sh
+  $ git clone https://github.com/nomlab/hiyoco
+  #+END_SRC
+
+2. Install necessary python libraries
+  #+BEGIN_SRC sh
+  $ pip -r install requirements/production.txt
+  #+END_SRC
+
+** Launch Sounder
+1. Launch Sounder server
+- You should launch Sounder server in Voice Kit.
+- You need files gnereated by compile.
+If you know how to compile, see "Information for developers"
+
+  #+BEGIN_SRC sh
+  $ cd hiyoco/services/sounder/
+  $ python sounder_server.py
+  #+END_SRC
+
+  Then launch and wait Sounder server on =http://localhost:50051= .
+
+** Test
+1. Run test script
+
+  #+BEGIN_SRC sh
+  $ python sounder_client.py
+  #+END_SRC
+
+  Then Sounder server say following sentence using Voice Kit.
+
+  #+BEGIN_SRC
+  Summary is Test event.
+  Description is This is test.
+  #+END_SRC
+
+* Information for developers
+** Settings for development environment
+1. Install necessary python libraries
+
+  #+BEGIN_SRC sh
+  $ pip -r install requirements/development.txt
+  #+END_SRC
+
+** How to compile =.proto= file
+The following commands must execute in the "hiyoco/services/sounder/" .
+
+1. Compile =event.proto=
+
+  #+BEGIN_SRC sh
+  $ python -m grpc_tools.protoc -I../../proto/ --python_out=. --grpc_python_out=. ../../proto/hiyoco/calendar/event.proto
+  #+END_SRC
+
+2. Compile =service.proto=
+
+  #+BEGIN_SRC sh
+  $ python -m grpc_tools.protoc -I../../proto/ --python_out=. --grpc_python_out=. ../../proto/hiyoco/sounder/service.proto
+  #+END_SRC
+
+* References
+1. [[https://aiyprojects.withgoogle.com/voice/][Voice Kit]]
+2. [[https://grpc.io/docs/quickstart/python.html][grpc(Google documents)]]
