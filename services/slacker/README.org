@@ -67,11 +67,15 @@ The following commands must execute in the "hiyoco/services/slacker/" .
 
 1. Compile =event.proto=
 
+  The =event.proto= is a common =.proto= file for each service.
+
   #+BEGIN_SRC sh
   $ python -m grpc_tools.protoc -I../../proto/ --python_out=. --grpc_python_out=. ../../proto/hiyoco/calendar/event.proto
   #+END_SRC
 
 2. Compile =service.proto=
+
+  The =service.proto= is a unique =.proto= file for slacker.
 
   #+BEGIN_SRC sh
   $ python -m grpc_tools.protoc -I../../proto/ --python_out=. --grpc_python_out=. ../../proto/hiyoco/slacker/service.proto
