@@ -1,0 +1,62 @@
+/**
+   Event related messages.
+   
+   This file is event.proto for hiyoco calendar
+*/
+syntax = "proto3";
+package camome.calendar;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "org.nomlab.camome";
+option java_outer_classname = "EventProtos";
+option csharp_namespace = "Camome.Calendar.Event";
+
+/**
+  Represents Date type variable provided by Google Calendar
+*/
+message Date {
+  google.protobuf.Timestamp date = 1; /// Date
+}
+
+/**
+  Represents DateTime type variables provided by Google Calendar
+*/
+message DateTime {
+  google.protobuf.Timestamp dateTime = 1; /// Datetime
+  string timeZone = 2; /// Timezone
+}
+
+/**
+  Represents which type is event, Date type or DateTime type
+*/
+message DateOrTime {
+  oneof DateOrTime {
+    Date date = 1; /// Date type 
+    DateTime dateTime = 2; /// DateTime type
+  }
+}
+
+/**
+  Represents event detail
+*/
+message Event {
+  DateOrTime start = 1; /// Start date or dateTime of the event
+  DateOrTime end = 2; /// End date or dateTime of the event 
+  string summary = 3; /// Summary of the event
+  string description = 4; /// Description about the event
+}
+
+/**
+  Represents return value of result
+*/
+message Result {
+  bool result = 1; /// Result
+}
+
+/**
+  Represents status code of Slack
+*/
+message Status {
+  string status_code = 1; /// Status code
+}
