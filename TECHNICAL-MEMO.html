@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>gRPC + Protocol Buffers による疎結合なソフトウェアの開発</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Yoshinari Nomura" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2017 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">gRPC + Protocol Buffers による疎結合なソフトウェアの開発</h1>
+<div id="table-of-contents">
+<h2>&#30446;&#27425;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org7daad6e">Motivation &#x2013; nomlab で疎結合なソフトウェアの開発をする意義</a></li>
+<li><a href="#org97ad0c2">Perspectives &#x2013; 現時点での見通し</a></li>
+<li><a href="#org66a7f42">要検討事項:</a></li>
+<li><a href="#org47ea9e4">Protocol Buffers に関するドキュメント (読む順)</a></li>
+<li><a href="#org8c43804">gRPC に関するドキュメント</a></li>
+<li><a href="#org11e88bb">参照すべきコードやツール</a></li>
+<li><a href="#org221ca01">Ruby で Protocol Buffers + gRPC</a></li>
+<li><a href="#org4857144">検討過程で参考にしたサイト</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7daad6e" class="outline-2">
+<h2 id="org7daad6e">Motivation &#x2013; nomlab で疎結合なソフトウェアの開発をする意義</h2>
+<div class="outline-text-2" id="text-org7daad6e">
+<ol class="org-ol">
+<li>Loose coupling: 構成員の変化サイクルが短かいのに対応したい
+<ul class="org-ul">
+<li>研究テーマ毎に1つの小さなサービスを作成 → 全体のエコシステムに組込む</li>
+<li>メンテナンスされなくなった機能を削りやすく</li>
+</ul></li>
+
+<li>Polyglot: 機能毎に最適な言語を選択したい
+<ul class="org-ul">
+<li>機械学習系 → Python</li>
+<li>Web インタフェース → Ruby + JS</li>
+<li>Drupal連携 → PHP</li>
+<li>システム系 → C++, Rust</li>
+</ul></li>
+
+<li>Documentation: 論文だけからコードの中身を理解するのは辛いので何とかしたい
+<ul class="org-ul">
+<li>API 界面を文書化して残すことを徹底したい (REST, RPC)</li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org97ad0c2" class="outline-2">
+<h2 id="org97ad0c2">Perspectives &#x2013; 現時点での見通し</h2>
+<div class="outline-text-2" id="text-org97ad0c2">
+<ol class="org-ol">
+<li>Loose coupling, Polyglot
+<ul class="org-ul">
+<li><a href="https://grpc.io/">gRPC</a> &#x2013; A high performance, open-source universal RPC framework</li>
+<li><a href="https://developers.google.com/protocol-buffers">Protocol Buffers</a> &#x2013; Protocol buffers are Google's language-neutral, platform-neutral, extensible mechanism for serializing structured data</li>
+</ul></li>
+
+<li>Documentation
+<dl class="org-dl">
+<dt>内部API (gRPC)</dt><dd>Protocol Buffers DSL → document
+<ul class="org-ul">
+<li><a href="https://github.com/pseudomuto/protoc-gen-doc">protoc-gen-doc</a> を使って，内部API → HTML生成</li>
+<li>Protocol Buffers の .proto ファイルを HTML で見られる程度だけど，大丈夫か?</li>
+</ul></dd>
+<dt>外部API (REST + JSON)</dt><dd>Protocol Buffers DSL → grpc-gateway + Swagger → document
+<ul class="org-ul">
+<li><a href="https://github.com/grpc-ecosystem/grpc-gateway">grpc-gateway</a> が内部API←→外部APの Reverse proxy であると同時に Protocol Buffers DLS を拡張．</li>
+<li><a href="https://swagger.io/">Swagger</a> は，もともと REST API の設計，文書化ツールとして定評がある</li>
+</ul></dd>
+</dl></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org66a7f42" class="outline-2">
+<h2 id="org66a7f42">要検討事項:</h2>
+<div class="outline-text-2" id="text-org66a7f42">
+<ol class="org-ol">
+<li>Authentication (+ Authorization?)
+<ul class="org-ul">
+<li>gRPC には，いくつかの組込み Authentication 方式がある
+(SSL/TLS mutual authentication, token-base)</li>
+<li>pluggable なので，自身で認証フレームワークを書くことも可能だが，現実的か?</li>
+</ul></li>
+
+<li>Pub/Sub
+<ul class="org-ul">
+<li>RabbitMQ や NATS 等の message broker に Protocol Buffers encoded message を流すといい?</li>
+<li><a href="https://cloud.google.com/">GCP</a> にはある: <a href="https://cloud.google.com/pubsub/grpc-overview?hl=ja">gRPC を介した Cloud Pub/Sub (Google Cloud Platform)</a></li>
+<li>RabbitMQ に grpc のメッセージを突っ込めば行けそうだが，実装例の情報が少ない → 要調査</li>
+<li>NATS (nrpc) にすればいいかもしれない?
+<ul class="org-ul">
+<li><a href="https://github.com/rapidloop/nrpc">rapidloop/nrpc: nRPC is like gRPC, but over NATS</a></li>
+</ul></li>
+</ul></li>
+
+<li>Orchestration (Kubernetes 必要?)
+<ul class="org-ul">
+<li>Istio</li>
+<li>Service Discovery 問題
+<ul class="org-ul">
+<li>gRPC は，依存性解決が繁雑という問題がある(依存するエンドポイントのアドレスを常に意識しなければならない)</li>
+<li><a href="https://nats.io/about/">NATS</a> を使うと grpc をルーティングする brokerにできる?</li>
+</ul></li>
+<li>Deploy 問題</li>
+<li>ネットワーク構成</li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org47ea9e4" class="outline-2">
+<h2 id="org47ea9e4">Protocol Buffers に関するドキュメント (読む順)</h2>
+<div class="outline-text-2" id="text-org47ea9e4">
+<ul class="org-ul">
+<li><a href="https://developers.google.com/protocol-buffers/">Protocol Buffers</a>
+<ul class="org-ul">
+<li><a href="https://developers.google.com/protocol-buffers/docs/overview">Developer Guide  |  Protocol Buffers  |  Google Developers</a></li>
+<li><a href="https://developers.google.com/protocol-buffers/docs/proto3">Language Guide (proto3)  |  Protocol Buffers  |  Google Developers</a>
+Protocol Buffers の DSL 仕様．全部読んだほうがいい．小さいのですぐ読めると思う．</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8c43804" class="outline-2">
+<h2 id="org8c43804">gRPC に関するドキュメント</h2>
+<div class="outline-text-2" id="text-org8c43804">
+<p>
+まだあまり見てない turorial 以上のことは，都度読めばいい感じ?
+</p>
+<ul class="org-ul">
+<li><a href="https://grpc.io/">grpc / grpc.io</a>
+<ul class="org-ul">
+<li><a href="https://grpc.io/docs/guides/concepts.html">grpc / gRPC Concepts</a>
+<ul class="org-ul">
+<li><b>Server streaming RPC</b></li>
+<li><b>Client streaming RPC</b></li>
+<li><b>Bidirectional streaming RPC</b></li>
+<li><b>Deadlines/Timeouts</b></li>
+<li><b>Metadata</b>
+Metadata is opaque to gRPC itself - it lets the client provide
+information associated with the call to the server and vice versa.</li>
+</ul></li>
+<li><a href="https://grpc.io/docs/guides/auth.html">grpc / Authentication</a>
+<ul class="org-ul">
+<li><b>SSL/TLS</b>: gRPC has SSL/TLS integration and promotes the use
+of SSL/TLS to authenticate the server, and to encrypt all the
+data exchanged between the client and the server. Optional
+mechanisms are available for <b>clients to provide certificates for mutual authentication</b>.</li>
+<li><b>Token-based authentication with Google</b>: gRPC provides a
+generic mechanism (described below) to attach metadata based
+credentials to requests and responses. Additional support for
+acquiring access tokens (typically OAuth2 tokens) while
+accessing Google APIs through gRPC is provided for certain
+auth flows: you can see how this works in our code examples
+below. In general this mechanism must be used as well as
+SSL/TLS on the channel - Google will not allow connections
+without SSL/TLS, and most gRPC language implementations will
+not let you send credentials on an unencrypted channel.</li>
+<li><b>Extending gRPC to support other authentication mechanisms</b></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org11e88bb" class="outline-2">
+<h2 id="org11e88bb">参照すべきコードやツール</h2>
+<div class="outline-text-2" id="text-org11e88bb">
+<ul class="org-ul">
+<li><a href="https://github.com/grpc/grpc">grpc/grpc</a>: The C based gRPC (C++, Python, Ruby, Objective-C, PHP, C#)
+<ul class="org-ul">
+<li>grpc そのもののソースコード</li>
+</ul></li>
+
+<li><a href="https://github.com/grpc/grpc-contrib">grpc/grpc-contrib</a> : gRPC ecosystem that complements gRPC core
+<ul class="org-ul">
+<li>polygot, gRPC gateway は見ておくとよい</li>
+</ul></li>
+
+<li><a href="https://github.com/google/protobuf">google/protobuf </a>: Protocol Buffers - Google's data interchange format
+<ul class="org-ul">
+<li>protoc など，Protocol Buffers → 各種言語へのコンパイラ集</li>
+</ul></li>
+
+<li><a href="https://github.com/grpc/grpc-docker-library">grpc/grpc-docker-library</a>
+<ul class="org-ul">
+<li>Contains dockerfiles for gRPC in different languages</li>
+<li>個々の言語毎に存在するので，言語毎のチュートリアルを読んだ後に，必要に応じて，ここを見たほうがいい．</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org221ca01" class="outline-2">
+<h2 id="org221ca01">Ruby で Protocol Buffers + gRPC</h2>
+<div class="outline-text-2" id="text-org221ca01">
+<dl class="org-dl">
+<dt>grpc gem</dt><dd>A Ruby implementation of gRPC (gRPC のランタイム)
+<ul class="org-ul">
+<li><a href="https://github.com/grpc/grpc/tree/master/src/ruby">grpc/grpc/src/ruby at master</a></li>
+</ul></dd>
+
+<dt>grpc-tools gem</dt><dd>protoc and the Ruby gRPC protoc plugin for Windows, Linux, and Mac
+(Prococol Buffers 形式の DSL から Ruby のオブジェクト定義，gRPC の stub 等を生成する) (バイナリパッケージ)
+<ul class="org-ul">
+<li><a href="https://github.com/grpc/grpc/tree/master/src/ruby/tools">grpc/grpc/src/ruby/tools at master</a></li>
+</ul></dd>
+
+<dt>google-protobuf gem</dt><dd>Ruby extension that implements Protocol Buffers functionality in Ruby.
+<ul class="org-ul">
+<li>Ruby で Protocol Buffer 対応のデータを利用するためのライブラリ</li>
+<li>google/protobuf/ruby 以下にある →  <a href="https://github.com/google/protobuf/tree/master/ruby">google/protobuf/ruby at master</a></li>
+<li>依存関係により，grpc gem を入れたら入る</li>
+</ul></dd>
+
+<dt>本家の quick start</dt><dd><a href="https://grpc.io/docs/quickstart/ruby.html">https://grpc.io/docs/quickstart/ruby.html</a>
+上記の gem を使っている．</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org4857144" class="outline-2">
+<h2 id="org4857144">検討過程で参考にしたサイト</h2>
+<div class="outline-text-2" id="text-org4857144">
+<ul class="org-ul">
+<li><a href="https://postd.cc/dissecting-message-queues/">分散型メッセージングミドルウェアの詳細比較 | POSTD</a></li>
+
+<li><a href="https://news.ycombinator.com/item?id=9665204">Using Protobuf instead of JSON to communicate with a front end | Hacker News</a></li>
+
+<li><a href="https://qiita.com/disc99/items/cfca50a32240284578bb">REST APIの設計で消耗している感じたときのgRPC入門 - Qiita</a>
+<ul class="org-ul">
+<li>gRPC に関する包括的ないい解説</li>
+<li><a href="https://qiita.com/disc99/items/cfca50a32240284578bb#rest-api%E3%81%B8%E3%81%AE%E5%AF%BE%E5%BF%9C">REST API への対応 (grpc-gateway)</a> の説明</li>
+<li>Swagger UI で API ドキュメントを生成できるのもいい感じ．</li>
+</ul></li>
+
+<li><a href="https://speakerdeck.com/kazegusuri/go-conference-2016-spring">GRPCの実践と現状での利点欠点 / Go Conference 2016 Spring // Speaker Deck</a>
+<ul class="org-ul">
+<li>24枚目に grpc-gateway (gRPC を REST/JSON にするリバースプロキシ) の説明</li>
+</ul></li>
+
+<li><a href="https://news.ycombinator.com/item?id=9665204">Using Protobuf instead of JSON to communicate with a front end | Hacker News</a></li>
+
+<li><a href="https://improbable.io/games/blog/grpc-web-moving-past-restjson-towards-type-safe-web-apis">gRPC-Web: Moving past REST+JSON towards type-safe Web APIs - Improbable</a>
+<ul class="org-ul">
+<li>grpc-gateway を使わずにフロントエンド JS で grpc を理解するライブラリの話</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">&#33879;&#32773;: Yoshinari Nomura</p>
+<p class="validation"></p>
+</div>
+</body>
+</html>
