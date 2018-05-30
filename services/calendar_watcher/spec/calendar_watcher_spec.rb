@@ -1,6 +1,6 @@
-RSpec.describe GcWatcher do
+RSpec.describe CalendarWatcher do
   it "has a version number" do
-    expect(GcWatcher::VERSION).not_to be nil
+    expect(CalendarWatcher::VERSION).not_to be nil
   end
 
   it "does something useful" do

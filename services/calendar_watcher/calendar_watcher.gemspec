@@ -1,11 +1,11 @@
 git = File.expand_path('../.git', __FILE__)
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "gc_watcher/version"
+require "calendar_watcher/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "gc_watcher"
-  spec.version       = GcWatcher::VERSION
+  spec.name          = "calendar_watcher"
+  spec.version       = CalendarWatcher::VERSION
   spec.authors       = ["Nomura Laboratory, Hiromu, Ishikawa, Yoshinari Nonura"]
   spec.email         = ["nomura.laboratory@gmail.com"]
 

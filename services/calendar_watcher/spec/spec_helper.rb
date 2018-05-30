@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "gc_watcher"
+require "calendar_watcher"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

@@ -1,4 +1,4 @@
-* GcWatcher
+* CalendarWatcher
 
   Watch Google calenar and send events via gRPC to upstreams.
 
@@ -7,7 +7,7 @@
    Add this line to your application's Gemfile:
 
    #+BEGIN_SRC ruby
-     gem 'gc_watcher'
+     gem 'calendar_watcher'
    #+END_SRC
 
    And then execute:
@@ -19,7 +19,7 @@
    Or install it yourself as:
 
    #+BEGIN_SRC ruby
-     $ gem install gc_watcher
+     $ gem install calendar_watcher
    #+END_SRC
 
 ** Usage
@@ -32,14 +32,14 @@
 
    1. Install dependencies:
      #+BEGIN_SRC ruby
-     $ cd gc_watcher
+     $ cd calendar_watcher
      $ bundle install --path=vendor/bundle --binstubs=bin
      #+END_SRC
 
    2. Generate gRPC code:
      #+BEGIN_SRC ruby
      $ bin/grpc_tools_ruby_protoc -I ../../proto/ --ruby_out=lib/proto --grpc_out=lib/proto ../../proto/hiyoco/calendar/event.proto
-     $ bin/grpc_tools_ruby_protoc -I ../../proto/ --ruby_out=lib/proto --grpc_out=lib/proto ../../proto/hiyoco/gc_watcher/service.proto
+     $ bin/grpc_tools_ruby_protoc -I ../../proto/ --ruby_out=lib/proto --grpc_out=lib/proto ../../proto/hiyoco/calendar_watcher/service.proto
      #+END_SRC
 
    To install this gem onto your local machine, run

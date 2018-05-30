@@ -31,9 +31,9 @@ require "rubygems"
 require "bundler/setup"
 require "grpc"
 require "google/protobuf/well_known_types"
-require "hiyoco/gc_watcher/service_services_pb"
+require "hiyoco/calendar_watcher/service_services_pb"
 
-# load Gem.bin_path("goohub", "goohub")
+load Gem.bin_path("calendar_watcher", "goohub")
 
 def create_date(time)
   gtime = Google::Protobuf::Timestamp.new
@@ -48,7 +48,7 @@ def create_date(time)
 end
 
 def main
-  stub = Hiyoco::GcWatcher::Sounder::Stub.new('localhost:50051', :this_channel_is_insecure)
+  stub = Hiyoco::CalendarWatcher::Sounder::Stub.new('localhost:50051', :this_channel_is_insecure)
 
   s = create_date(Time.now)
   e = create_date(Time.now + 600)
@@ -58,5 +58,3 @@ def main
   puts message
 
 end
-
-main

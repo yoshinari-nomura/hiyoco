@@ -22,9 +22,9 @@ $LOAD_PATH.unshift(lib_dir) unless $LOAD_PATH.include?(lib_dir)
 require "rubygems"
 require "bundler/setup"
 require "grpc"
-require "hiyoco/gc_watcher/service_services_pb"
+require "hiyoco/calendar_watcher/service_services_pb"
 
-class SounderServer < Hiyoco::GcWatcher::Sounder::Service
+class SounderServer < Hiyoco::CalendarWatcher::Sounder::Service
   def say_event(event, _unused_call)
     puts event.summary
     Hiyoco::Calendar::Result.new(result: true)
