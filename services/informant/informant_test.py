@@ -4,8 +4,8 @@ import grpc
 
 import hiyoco.calendar.event_pb2 as event_pb2
 import hiyoco.calendar.event_pb2_grpc as event_pb2_grpc
-import hiyoco.slacker.service_pb2 as service_pb2
-import hiyoco.slacker.service_pb2_grpc as service_pb2_grpc
+import hiyoco.informant.service_pb2 as service_pb2
+import hiyoco.informant.service_pb2_grpc as service_pb2_grpc
 
 
 def run():

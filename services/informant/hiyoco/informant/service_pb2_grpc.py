@@ -15,7 +15,7 @@ class SlackStub(object):
       channel: A grpc.Channel.
     """
     self.SayEvent = channel.unary_unary(
-        '/hiyoco.slacker.Slack/SayEvent',
+        '/hiyoco.informant.Slack/SayEvent',
         request_serializer=hiyoco_dot_calendar_dot_event__pb2.Event.SerializeToString,
         response_deserializer=hiyoco_dot_calendar_dot_event__pb2.Result.FromString,
         )
@@ -42,5 +42,5 @@ def add_SlackServicer_to_server(servicer, server):
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'hiyoco.slacker.Slack', rpc_method_handlers)
+      'hiyoco.informant.Slack', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))
