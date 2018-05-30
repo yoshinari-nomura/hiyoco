@@ -38,8 +38,8 @@
 
    2. Generate gRPC code:
      #+BEGIN_SRC ruby
-     $ bin/grpc_tools_ruby_protoc -I ../../proto/ --ruby_out=lib/proto --grpc_out=lib/proto ../../proto/hiyoco/calendar/event.proto
-     $ bin/grpc_tools_ruby_protoc -I ../../proto/ --ruby_out=lib/proto --grpc_out=lib/proto ../../proto/hiyoco/calendar_watcher/service.proto
+     $ chmod a+x compile_proto_ruby.sh
+     $ ./compile_proto_ruby.sh
      #+END_SRC
 
    To install this gem onto your local machine, run
