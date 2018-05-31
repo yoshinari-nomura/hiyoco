@@ -1,0 +1,15 @@
+syntax = "proto3";
+package hiyoco.informant;
+
+import "hiyoco/calendar/event.proto";
+
+option java_package = "org.nomlab.hiyoco";
+option java_outer_classname = "InformantServiceProtos";
+option csharp_namespace = "Hiyoco.Informant.Service";
+
+/**
+  Service for handling SayEvent
+*/
+service Slack {
+  rpc SayEvent (hiyoco.calendar.Event) returns (hiyoco.calendar.Result) {}
+}
