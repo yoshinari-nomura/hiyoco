@@ -1,6 +1,6 @@
 /**
    Event related messages.
-   
+
    This file is event.proto for hiyoco calendar
 */
 syntax = "proto3";
@@ -32,7 +32,7 @@ message DateTime {
 */
 message DateOrTime {
   oneof DateOrTime {
-    Date date = 1; /// Date type 
+    Date date = 1; /// Date type
     DateTime dateTime = 2; /// DateTime type
   }
 }
@@ -42,7 +42,7 @@ message DateOrTime {
 */
 message Event {
   DateOrTime start = 1; /// Start date or dateTime of the event
-  DateOrTime end = 2; /// End date or dateTime of the event 
+  DateOrTime end = 2; /// End date or dateTime of the event
   string summary = 3; /// Summary of the event
   string description = 4; /// Description about the event
 }
@@ -52,11 +52,4 @@ message Event {
 */
 message Result {
   bool result = 1; /// Result
-}
-
-/**
-  Represents status code of Slack
-*/
-message Status {
-  string status_code = 1; /// Status code
 }
