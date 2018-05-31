@@ -9,7 +9,6 @@
     - [DateTime](#camome.calendar.DateTime)
     - [Event](#camome.calendar.Event)
     - [Result](#camome.calendar.Result)
-    - [Status](#camome.calendar.Status)
   
   
   
@@ -102,21 +101,6 @@ Represents return value of result
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | result | [bool](#bool) |  | Result |
-
-
-
-
-
-
-<a name="camome.calendar.Status"/>
-
-### Status
-Represents status code of Slack
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| status_code | [string](#string) |  | Status code |
 
 
 
