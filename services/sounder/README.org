@@ -1,0 +1,64 @@
+* sounder
+本サービスは，gRPC により受け取った予定を Voice Kit を利用して発言する．
+
+* Setup for production
+
+TBA...
+
+* Setup for development
+** Requirements
++ Python 3.x
+
+** Settings
+1. ソースコードの取得
+
+  #+BEGIN_SRC sh
+  $ git clone https://github.com/nomlab/hiyoco
+  #+END_SRC
+
+2. 実行に必要な Python ライブラリのインストール
+
+  #+BEGIN_SRC sh
+  $ pip -r install requirements/development.txt
+  #+END_SRC
+
+3. =.proto= のコンパイル
+
+  本サービスの実行に必要な以下の2つの =.proto= をコンパイルする．
+   + hiyoco/proto/calendar/event.proto
+   + hiyoco/proto/sounder/service.proto
+
+  =hiyoco/services/sounder/= で以下を実行すると，本サービスのディレクトリに =hiyoco= ディレクトリが作成され，その中にコンパイル後のファイルが配置される．
+
+   #+BEGIN_SRC sh
+   $ chmod +x compile_proto.sh
+   $ ./compile_proto.sh
+   #+END_SRC
+
+** Launch sounder server
+1. sounder のサーバを起動
+
+   Voice Kit で下記を実行する．
+  #+BEGIN_SRC sh
+  $ python sounder_server.py
+  #+END_SRC
+
+  上記を実行すると， =http://localhost:50051= でサーバが待機する．
+
+** Test
+1. テストスクリプトの実行
+
+  #+BEGIN_SRC sh
+  $ python sounder_client.py
+  #+END_SRC
+
+  上記を実行すると，soudner のサーバが Voice Kit を利用して以下の文章を発言する．
+
+  #+BEGIN_SRC
+  Summary:Test event
+  Description:This is test
+  #+END_SRC
+
+* References
+1. [[https://aiyprojects.withgoogle.com/voice/][Voice Kit]]
+2. [[https://grpc.io/docs/quickstart/python.html][grpc(Google documents)]]
