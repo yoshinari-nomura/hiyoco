@@ -22,6 +22,23 @@
      $ gem install calendar_watcher
    #+END_SRC
 
+** Setup
+
+   CalendarWatcher requires authorization to Google Calendar API.
+
+   1. Get OAuth 2.0 CLIENT_ID/CLIENT_SECRET at
+      https://console.developers.google.com
+
+   2. Create a config file by invoking init command.
+     #+BEGIN_SRC ruby
+     $ bundle exec exe/calendar_watcher init
+     #+END_SRC
+
+   3. Authorize by invoking auth command.
+     #+BEGIN_SRC ruby
+     $ bundle exec exe/calendar_watcher auth
+     #+END_SRC
+
 ** Usage
 
    TODO: Write usage instructions here
