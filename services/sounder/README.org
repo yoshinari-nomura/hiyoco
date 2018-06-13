@@ -1,5 +1,5 @@
 * sounder
-本サービスは，gRPC により受け取った予定を Voice Kit を利用して発言する．
+本サービスは，gRPC により受け取った予定を AIY Voice Kit を利用して発言する．
 
 * Setup for production
 
@@ -8,6 +8,11 @@ TBA...
 * Setup for development
 ** Requirements
 + Python 3.x
++ AIY Voice Kit
+
+本サービスは，初期設定が完了し， =aiy.audio= モジュールが利用できるAIY Voice Kit上で動作することを前提としている．
+具体的には，デモプログラムの1つである =assistant_grpc_demo.py= を実行できることを前提としている．
+デモプログラムの詳細や初期設定の方法については，AIY Voice Kitに付属の説明書や， [[https://aiyprojects.withgoogle.com/voice/][公式のホームページ]]に記載されているため，ここでは割愛する．
 
 ** Settings
 1. ソースコードの取得
@@ -38,7 +43,7 @@ TBA...
 ** Launch sounder server
 1. sounder のサーバを起動
 
-   Voice Kit で下記を実行する．
+   AIY Voice Kit で下記を実行する．
   #+BEGIN_SRC sh
   $ python sounder_server.py
   #+END_SRC
@@ -55,10 +60,10 @@ TBA...
   上記を実行すると，soudner のサーバが Voice Kit を利用して以下の文章を発言する．
 
   #+BEGIN_SRC
-  Summary:Test event
-  Description:This is test
+  Summary is "Test event"
+  Description is "This is test"
   #+END_SRC
 
 * References
-1. [[https://aiyprojects.withgoogle.com/voice/][Voice Kit]]
+1. [[https://aiyprojects.withgoogle.com/voice/][AIY Voice Kit]]
 2. [[https://grpc.io/docs/quickstart/python.html][grpc(Google documents)]]
