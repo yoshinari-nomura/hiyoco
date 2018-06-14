@@ -3,31 +3,53 @@
 
 ## Table of Contents
 
-- [event.proto](#event.proto)
-    - [Date](#camome.calendar.Date)
-    - [DateOrTime](#camome.calendar.DateOrTime)
-    - [DateTime](#camome.calendar.DateTime)
-    - [Event](#camome.calendar.Event)
-    - [Result](#camome.calendar.Result)
+- [hiyoco/calendar/event.proto](#hiyoco/calendar/event.proto)
+    - [Date](#hiyoco.calendar.Date)
+    - [DateOrTime](#hiyoco.calendar.DateOrTime)
+    - [DateTime](#hiyoco.calendar.DateTime)
+    - [Event](#hiyoco.calendar.Event)
+    - [Result](#hiyoco.calendar.Result)
   
   
   
+  
+
+- [hiyoco/informant/service.proto](#hiyoco/informant/service.proto)
+  
+  
+  
+    - [Slack](#hiyoco.informant.Slack)
+  
+
+- [hiyoco/sounder/service.proto](#hiyoco/sounder/service.proto)
+  
+  
+  
+    - [Sounder](#hiyoco.sounder.Sounder)
+  
+
+- [hiyoco/calendar_watcher/service.proto](#hiyoco/calendar_watcher/service.proto)
+  
+  
+  
+    - [Slack](#hiyoco.gc_watcher.Slack)
+    - [Sounder](#hiyoco.gc_watcher.Sounder)
   
 
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="event.proto"/>
+<a name="hiyoco/calendar/event.proto"/>
 <p align="right"><a href="#top">Top</a></p>
 
-## event.proto
+## hiyoco/calendar/event.proto
 Event related messages.
 
 This file is event.proto for hiyoco calendar
 
 
-<a name="camome.calendar.Date"/>
+<a name="hiyoco.calendar.Date"/>
 
 ### Date
 Represents Date type variable provided by Google Calendar
@@ -42,7 +64,7 @@ Represents Date type variable provided by Google Calendar
 
 
 
-<a name="camome.calendar.DateOrTime"/>
+<a name="hiyoco.calendar.DateOrTime"/>
 
 ### DateOrTime
 Represents which type is event, Date type or DateTime type
@@ -50,15 +72,15 @@ Represents which type is event, Date type or DateTime type
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| date | [Date](#camome.calendar.Date) |  | Date type |
-| dateTime | [DateTime](#camome.calendar.DateTime) |  | DateTime type |
+| date | [Date](#hiyoco.calendar.Date) |  | Date type |
+| dateTime | [DateTime](#hiyoco.calendar.DateTime) |  | DateTime type |
 
 
 
 
 
 
-<a name="camome.calendar.DateTime"/>
+<a name="hiyoco.calendar.DateTime"/>
 
 ### DateTime
 Represents DateTime type variables provided by Google Calendar
@@ -74,7 +96,7 @@ Represents DateTime type variables provided by Google Calendar
 
 
 
-<a name="camome.calendar.Event"/>
+<a name="hiyoco.calendar.Event"/>
 
 ### Event
 Represents event detail
@@ -82,8 +104,8 @@ Represents event detail
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| start | [DateOrTime](#camome.calendar.DateOrTime) |  | Start date or dateTime of the event |
-| end | [DateOrTime](#camome.calendar.DateOrTime) |  | End date or dateTime of the event |
+| start | [DateOrTime](#hiyoco.calendar.DateOrTime) |  | Start date or dateTime of the event |
+| end | [DateOrTime](#hiyoco.calendar.DateOrTime) |  | End date or dateTime of the event |
 | summary | [string](#string) |  | Summary of the event |
 | description | [string](#string) |  | Description about the event |
 
@@ -92,7 +114,7 @@ Represents event detail
 
 
 
-<a name="camome.calendar.Result"/>
+<a name="hiyoco.calendar.Result"/>
 
 ### Result
 Represents return value of result
@@ -111,6 +133,94 @@ Represents return value of result
  
 
  
+
+ 
+
+
+
+<a name="hiyoco/informant/service.proto"/>
+<p align="right"><a href="#top">Top</a></p>
+
+## hiyoco/informant/service.proto
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="hiyoco.informant.Slack"/>
+
+### Slack
+Service for handling SayEvent
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
+
+ 
+
+
+
+<a name="hiyoco/sounder/service.proto"/>
+<p align="right"><a href="#top">Top</a></p>
+
+## hiyoco/sounder/service.proto
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="hiyoco.sounder.Sounder"/>
+
+### Sounder
+Service for handling SayEvent
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
+
+ 
+
+
+
+<a name="hiyoco/calendar_watcher/service.proto"/>
+<p align="right"><a href="#top">Top</a></p>
+
+## hiyoco/calendar_watcher/service.proto
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="hiyoco.gc_watcher.Slack"/>
+
+### Slack
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
+
+
+<a name="hiyoco.gc_watcher.Sounder"/>
+
+### Sounder
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
 
  
 
