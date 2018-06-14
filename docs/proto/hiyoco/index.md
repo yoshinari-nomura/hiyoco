@@ -206,7 +206,7 @@ Service for handling SayEvent
 <a name="hiyoco.gc_watcher.Slack"/>
 
 ### Slack
-
+Service for handling SayEvent
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
@@ -216,7 +216,7 @@ Service for handling SayEvent
 <a name="hiyoco.gc_watcher.Sounder"/>
 
 ### Sounder
-
+Service for handling SayEvent
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
