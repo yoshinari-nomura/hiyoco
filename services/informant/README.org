@@ -38,17 +38,15 @@ TBA...
 
 4. Slack に関する設定
 
-  以下の3つの項目を設定する．
+  setup.sh を実行し，以下の3つの項目を設定する．
 
    + 投稿先ワークスペースの Slack トークン
    + 投稿先のチャンネル名
    + Bot のユーザ名
      
    #+BEGIN_SRC sh
-   $ cp settings.yml.sample settings.yml
-   $ vim settings.yml # - > Replace <YOUR_SLACK_TOKEN> to your slack token
-                    # - > Replace <CHANNEL> to your slack channel
-                    # - > Replace <USER_NAME> to display name
+   $ chmod +x setup.sh
+   $ ./setup.sh
    #+END_SRC
 
 ** Launch informant
