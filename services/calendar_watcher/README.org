@@ -1,6 +1,6 @@
 * CalendarWatcher
 
-  Watch Google calenar and send events via gRPC to upstreams.
+  Watch Google calendar and send events via gRPC to upstreams.
 
 ** Installation
 
