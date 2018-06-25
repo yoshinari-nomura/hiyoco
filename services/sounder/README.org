@@ -40,16 +40,19 @@ TBA...
 
    Voice Kit で下記を実行する．
   #+BEGIN_SRC sh
-  $ python sounder_server.py
+  $ python sounder_server.py [PORT]
   #+END_SRC
 
-  上記を実行すると， =http://localhost:50051= でサーバが待機する．
+[PORT]はポート番号を表す．[PORT]は指定しなかった場合，50051となる．
+上記を実行すると， =http://localhost:[PORT]= でサーバが待機する．
+
 
 ** Test
 1. テストスクリプトの実行
 
+=sounder_server.py= 起動時に指定したポート番号を[PORT]に指定して，以下のコマンドを実行する．
   #+BEGIN_SRC sh
-  $ python sounder_client.py
+  $ python sounder_client.py [PORT]
   #+END_SRC
 
   上記を実行すると，soudner のサーバが Voice Kit を利用して以下の文章を発言する．
