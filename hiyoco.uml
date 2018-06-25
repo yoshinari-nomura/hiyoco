@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+(Google Calendar) as (gc)
+(Slack) as (slack)
+
+rectangle hiyoco {
+agent calendar_wathcer as cw
+agent informant
+agent sounder
+
+(gc) -up-> cw : https
+cw -up-> (gc) : https
+cw .left.> sounder : gRPC
+cw .left.> informant : gRPC
+informant -left-> (slack) : https
+}
+
+@enduml

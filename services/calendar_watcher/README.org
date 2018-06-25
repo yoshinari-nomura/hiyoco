@@ -38,8 +38,7 @@
 
    2. Generate gRPC code:
      #+BEGIN_SRC ruby
-     $ chmod a+x compile_proto_ruby.sh
-     $ ./compile_proto_ruby.sh
+     $ bundle exec rake compile
      #+END_SRC
 
    To install this gem onto your local machine, run
@@ -47,7 +46,10 @@
    update the version number in
    =version.rb=, and then run =bundle exec rake release=, which will
    create a git tag for the version, push git commits and tags, and push
-   the =.gem= file to [[https://rubygems.org][rubygems.org]]
+   the =.gem= file to [[https://rubygems.org][rubygems.org]].
+   You don’t need to run =bundle exec rake compile= before running
+   =bundle exec rake install= or =bundle exec rake release= because
+   both of commands are dependencies of =bundle exec rake compile=.
 
 ** Contributing
 

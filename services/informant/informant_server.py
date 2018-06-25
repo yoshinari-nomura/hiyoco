@@ -16,6 +16,11 @@ _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 SLACK_MESSAGE_API = 'https://slack.com/api/chat.postMessage'
 
 try:
+    port = sys.argv[1]
+except:
+    port = 50051
+
+try:
     settings = yaml.load(open('settings.yml','r'))
     SLACK_TOKEN =  settings['slack_token']
     SLACK_CHANNEL = settings['channel']
@@ -46,7 +51,7 @@ class Slack(service_pb2_grpc.SlackServicer):
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     service_pb2_grpc.add_SlackServicer_to_server(Slack(), server)
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port('[::]:' + str(port))
     server.start()
     try:
         while True:
