@@ -1,9 +1,9 @@
 class CalendarWatcherCLI < Clian::Cli 
   desc "get_event CALENDAR_ID EVENT_ID", "Show event by EVENT_ID"
-  option :output, :default => "stdout", :desc => "specify output destination ( stdout or grpc:imformant or grpc:sounder )"
+  option :output, :default => "stdout", :desc => "specify output destination ( stdout or grpc:imformant or grpc:sounder ) host port"
 
   def get_event(calendar_id, event_id)
-    output, dist = options[:output].split(":")
+    output, dist, host, port = options[:output].split(":")
     event = client.get_event(calendar_id, event_id)
 
     if output == "stdout"
@@ -15,10 +15,18 @@ class CalendarWatcherCLI < Clian::Cli
       puts "start_time: #{event.start.date_time}\n"
       puts "end_time:   #{event.end.date_time}\n"
     elsif output == "grpc"
+      if !host
+        host = "localhost"
+      end
+
+      if !port 
+        port = "50051"
+      end
+
       if dist == "sounder"
-        stub = Hiyoco::CalendarWatcher::Sounder::Stub.new('localhost:50051', :this_channel_is_insecure)
+        stub = Hiyoco::CalendarWatcher::Sounder::Stub.new("#{host}:#{port}", :this_channel_is_insecure)
       elsif dist == "informant"
-        stub = Hiyoco::CalendarWatcher::Informant::Stub.new('localhost:50051', :this_channel_is_insecure)
+        stub = Hiyoco::CalendarWatcher::Informant::Stub.new("#{host}:#{port}", :this_channel_is_insecure)
       end
 
       s = create_date(event.start)
