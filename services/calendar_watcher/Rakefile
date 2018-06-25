@@ -4,3 +4,10 @@ require "rspec/core/rake_task"
 RSpec::Core::RakeTask.new(:spec)
 
 task :default => :spec
+
+task :compile do
+  sh "bin/grpc_tools_ruby_protoc -I ../../proto/ --ruby_out=lib/proto --grpc_out=lib/proto ../../proto/hiyoco/calendar/event.proto"
+  sh "bin/grpc_tools_ruby_protoc -I ../../proto/ --ruby_out=lib/proto --grpc_out=lib/proto ../../proto/hiyoco/calendar_watcher/service.proto"
+end
+
+task :build => :compile 
