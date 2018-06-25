@@ -17,28 +17,40 @@ TBA...
 ** Settings
 1. ソースコードの取得
 
-  #+BEGIN_SRC sh
-  $ git clone https://github.com/nomlab/hiyoco
-  #+END_SRC
+   #+BEGIN_SRC sh
+   $ git clone https://github.com/nomlab/hiyoco
+   #+END_SRC
 
-2. 実行に必要な Python ライブラリのインストール
-
-  #+BEGIN_SRC sh
-  $ pip -r install requirements/development.txt
-  #+END_SRC
-
-3. =.proto= のコンパイル
-
-  本サービスの実行に必要な以下の2つの =.proto= をコンパイルする．
-   + hiyoco/proto/calendar/event.proto
-   + hiyoco/proto/sounder/service.proto
-
-  =hiyoco/services/sounder/= で以下を実行すると，本サービスのディレクトリに =hiyoco= ディレクトリが作成され，その中にコンパイル後のファイルが配置される．
+2. =setup.sh= の実行
+以下のコマンドで =setup.sh= を実行する．
 
    #+BEGIN_SRC sh
+   $ chmod +x setup.sh
    $ chmod +x compile_proto.sh
-   $ ./compile_proto.sh
+   $ ./setup.sh
    #+END_SRC
+
+=setup.sh= は，開発環境を整えるためのスクリプトであり，以下の処理を行っている．
+
+   + 以下のファイルに記述された Python ライブラリのインストール
+    + requirements/common.txt
+    + requirements/development.txt
+   + 以下の =.proto= ファイルのコンパイル
+    + hiyoco/proto/calendar/event.proto
+    + hiyoco/proto/sounder/service.proto
+
+なお，上記のコンパイルでは， =compile_proto.sh= に記述された処理を実行している．
+下記に =setup.sh= の実行例を示す．
+
+   #+BEGIN_SRC sh
+   Python library will be installed. Are you OK? [Y/n]
+   # Python ライブラリのインストール
+   Done
+   Start compile .proto file
+   # .proto ファイルのコンパイル
+   Done
+   #+END_SRC
+
 
 ** Launch sounder server
 1. sounder のサーバを起動
@@ -53,16 +65,16 @@ TBA...
 ** Test
 1. テストスクリプトの実行
 
-  #+BEGIN_SRC sh
+   #+BEGIN_SRC sh
   $ python sounder_client.py
-  #+END_SRC
+   #+END_SRC
 
-  上記を実行すると，soudner のサーバが Voice Kit を利用して以下の文章を発言する．
+   上記を実行すると，soudner のサーバが Voice Kit を利用して以下の文章を発言する．
 
-  #+BEGIN_SRC
+   #+BEGIN_SRC
   Summary is "Test event"
   Description is "This is test"
-  #+END_SRC
+   #+END_SRC
 
 * References
 1. [[https://aiyprojects.withgoogle.com/voice/][AIY Voice Kit]]
