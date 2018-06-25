@@ -60,16 +60,18 @@ TBA...
 1. informant のサーバを起動
 
   #+BEGIN_SRC sh
-  $ python informant_server.py
+  $ python informant_server.py [PORT]
   #+END_SRC
 
-  上記を実行すると， =http://localhost:50051= でサーバが待機する．
+  上記を実行すると， =http://localhost:[PORT]= でサーバが待機する．ポート番号 =[PORT]= は指定しなかった場合， =50051= となる．
 
 ** Test
 1. テストスクリプトの実行
 
+  =[PORT]= に =informant_server.py= 起動時に指定したポート番号を指定して以下のコマンドを実行する．
+
   #+BEGIN_SRC sh
-  $ python informant_test.py
+  $ python informant_test.py [PORT]
   #+END_SRC
 
   上記を実行すると，指定したワークスペースのチャンネルに以下のメッセージが送信される．
