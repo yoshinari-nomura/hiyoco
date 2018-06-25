@@ -17,39 +17,44 @@ TBA...
   $ git clone https://github.com/nomlab/hiyoco
   #+END_SRC 
 
-2. 実行に必要な Python ライブラリのインストール
+2. 動作に必要な設定
 
+  以下のコマンドを実行し，本サービスの動作に必要な設定を対話式に行う．
+   
   #+BEGIN_SRC sh
-  $ pip -r install requirements/development.txt
+  $ chmod +x setup.sh
+  $ ./setup.sh
   #+END_SRC
 
-3. =.proto= のコンパイル
+  上記を実行すると，以下の処理が行われる．
+   + 以下のファイルに記述された Python ライブラリのインストール
+    + requirements/common.txt
+    + requirements/development.txt
+   + 以下の2つの =.proto= のコンパイル
+    + hiyoco/proto/calendar/event.proto
+    + hiyoco/proto/informant/service.proto
+   + Slack に関する設定
+    + 投稿先ワークスペースの Slack トークン
+    + 投稿先のチャンネル名
+    + Bot の表示名
 
-  本サービスの実行に必要な以下の2つの =.proto= をコンパイルする．
-   + hiyoco/proto/calendar/event.proto
-   + hiyoco/proto/informant/service.proto
+  下記に実行例を示す．
 
-  以下を実行すると，本サービスのディレクトリに =hiyoco= ディレクトリが作成され，その中にコンパイル後のファイルが配置される．
-
-   #+BEGIN_SRC sh
-   $ chmod +x compile_proto.sh
-   $ ./compile_proto.sh
-   #+END_SRC
-
-4. Slack に関する設定
-
-  以下の3つの項目を設定する．
-
-   + 投稿先ワークスペースの Slack トークン
-   + 投稿先のチャンネル名
-   + Bot のユーザ名
-     
-   #+BEGIN_SRC sh
-   $ cp settings.yml.sample settings.yml
-   $ vim settings.yml # - > Replace <YOUR_SLACK_TOKEN> to your slack token
-                    # - > Replace <CHANNEL> to your slack channel
-                    # - > Replace <USER_NAME> to display name
-   #+END_SRC
+  #+BEGIN_SRC sh
+  Start setup for informant.
+  Python library will be installed. Are you OK? [Y/n]
+    # 必要なPythonライブラリのインストール
+  Done
+  Start compile proto file. 
+    # protoファイルのコンパイル
+  Done
+  Set slack-token, post destination channel, and bot display name.
+  You can get slack-token from following URL.
+  https://api.slack.com/custom-integrations/legacy-tokens
+  YOUR_SLACK_TOKEN: # Slack トークンの入力
+  CHANNEL_NAME: # 投稿先チャンネル名の入力
+  DISPLAY_BOT_NAME: # Bot の表示名を入力
+  #+END_SRC
 
 ** Launch informant
 1. informant のサーバを起動
