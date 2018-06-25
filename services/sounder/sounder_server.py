@@ -11,6 +11,11 @@ import hiyoco.sounder.service_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
+try:
+    port = sys.argv[1]
+except:
+    port = 50051
+
 class Sounder(hiyoco.sounder.service_pb2_grpc.SounderServicer):
     def SayEvent(self, request, context):
         msg = "Summary is " + request.summary + "\n" + "Description is" + request.description + "\n"
@@ -20,7 +25,7 @@ class Sounder(hiyoco.sounder.service_pb2_grpc.SounderServicer):
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     hiyoco.sounder.service_pb2_grpc.add_SounderServicer_to_server(Sounder(), server)
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port('[::]:' + str(port))
     server.start()
     try:
         while True:
