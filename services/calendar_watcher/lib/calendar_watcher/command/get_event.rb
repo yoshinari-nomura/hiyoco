@@ -1,4 +1,4 @@
-class CalendarWatcherCLI < GoohubCLI 
+class CalendarWatcherCLI < Clian::Cli 
   desc "get_event CALENDAR_ID EVENT_ID", "Show event by EVENT_ID"
   option :output, :default => "stdout", :desc => "specify output destination ( stdout or grpc:imformant or grpc:sounder )"
 

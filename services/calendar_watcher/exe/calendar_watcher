@@ -21,15 +21,14 @@ require 'googleauth/stores/file_token_store'
 require 'google/api_client/client_secrets'
 require 'google/apis/calendar_v3'
 require "clian"
-require "goohub"
-require 'goohub/command'
+require 'calendar_watcher'
 require 'calendar_watcher/command'
 
 Clian::Cli.bundler_rbenv_setup(__FILE__)
 
 Encoding.default_external="UTF-8"
 
-class CalendarWatcherCLI < GoohubCLI
+class CalendarWatcherCLI < Clian::Cli
   package_name 'CALENDAR_WATCHER'
 
   Signal.trap(:INT){
@@ -43,15 +42,15 @@ class CalendarWatcherCLI < GoohubCLI
     exit_on_error do
       return true if ["init", "help"].member?(command.name)
 
-      @config = Goohub::Config.create_from_file(options[:config] ||
+      @config = CalendarWatcher::Config.create_from_file(options[:config] ||
                                                 DEFAULT_CONFIG_PATH)
     end
   end
 
   def client
     begin
-      @client ||= Goohub::Client.new(@config.general, "calendar_watcher")
-    rescue Goohub::Client::AuthorizationError
+      @client ||= CalendarWatcher::Client.new(@config.general, "calendar_watcher")
+    rescue CalendarWatcher::Client::AuthorizationError
       STDERR.print "ERROR: try calendar_watcher auth command.\n"
       exit(1)
     end
