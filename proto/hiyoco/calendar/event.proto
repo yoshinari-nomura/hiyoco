@@ -58,5 +58,5 @@ message Result {
   Represents plain text
 */
 message Text {
-  string body = 1 /// Text body
+  string body = 1; /// Text body
 }
