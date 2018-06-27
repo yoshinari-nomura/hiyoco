@@ -6,10 +6,15 @@ import hiyoco.calendar.event_pb2 as event_pb2
 import hiyoco.calendar.event_pb2_grpc as event_pb2_grpc
 import hiyoco.informant.service_pb2 as service_pb2
 import hiyoco.informant.service_pb2_grpc as service_pb2_grpc
+import sys
 
+try:
+    port = sys.argv[1]
+except:
+    port = 50051
 
 def run():
-    channel = grpc.insecure_channel('localhost:50051')
+    channel = grpc.insecure_channel('localhost:' + str(port))
     stub = service_pb2_grpc.SlackStub(channel)
     response = stub.SayEvent(event_pb2.Event(summary='Test event',description="This is test"))
     print(response)
