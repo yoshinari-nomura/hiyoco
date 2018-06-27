@@ -12,7 +12,7 @@ except:
 def run():
     channel = grpc.insecure_channel('localhost:' + str(port))
     stub = hiyoco.sounder.service_pb2_grpc.SounderStub(channel)
-    response = stub.SayEvent(hiyoco.calendar.event_pb2.Event(summary='Test event',description="This is test"))
+    response = stub.SayEvent(hiyoco.calendar.event_pb2.Text(body='This is test'))
     print(response)
 
 
