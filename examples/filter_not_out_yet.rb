@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # coding: utf-8
 require "./event.rb"
 
@@ -15,7 +16,7 @@ while json = gets
   events_not_out_yet = filter(events) do |ev| 
     unseen = !seen[ev.to_s]
     seen[ev.to_s] = true
-    unseen
+    unseen 
   end
   p events_not_out_yet.to_json
 end
