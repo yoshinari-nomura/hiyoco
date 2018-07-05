@@ -53,3 +53,10 @@ message Event {
 message Result {
   bool result = 1; /// Result
 }
+
+/**
+  Represents plain text
+*/
+message Text {
+  string body = 1; /// Text body
+}

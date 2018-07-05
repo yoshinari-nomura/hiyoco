@@ -18,7 +18,7 @@ except:
 
 class Sounder(hiyoco.sounder.service_pb2_grpc.SounderServicer):
     def SayEvent(self, request, context):
-        msg = "Summary is " + request.summary + "\n" + "Description is" + request.description + "\n"
+        msg = request.body
         aiy.audio.say(msg)
         return hiyoco.calendar.event_pb2.Result()
 

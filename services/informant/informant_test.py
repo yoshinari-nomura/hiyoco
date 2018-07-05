@@ -15,8 +15,8 @@ except:
 
 def run():
     channel = grpc.insecure_channel('localhost:' + str(port))
-    stub = service_pb2_grpc.SlackStub(channel)
-    response = stub.SayEvent(event_pb2.Event(summary='Test event',description="This is test"))
+    stub = service_pb2_grpc.InformantStub(channel)
+    response = stub.SayEvent(event_pb2.Text(body="Summury: Test\nDescription: This is test\n"))
     print(response)
 
 

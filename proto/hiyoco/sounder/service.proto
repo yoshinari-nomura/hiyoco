@@ -11,5 +11,5 @@ option csharp_namespace = "Hiyoco.Sounder.Service";
   Service for handling SayEvent 
 */
 service Sounder {
-  rpc SayEvent (hiyoco.calendar.Event) returns (hiyoco.calendar.Result) {}
+  rpc SayEvent (hiyoco.calendar.Text) returns (hiyoco.calendar.Result) {}
 }
