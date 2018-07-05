@@ -10,6 +10,6 @@ option csharp_namespace = "Hiyoco.Informant.Service";
 /**
   Service for handling SayEvent
 */
-service Slack {
-  rpc SayEvent (hiyoco.calendar.Event) returns (hiyoco.calendar.Result) {}
+service Informant {
+  rpc SayEvent (hiyoco.calendar.Text) returns (hiyoco.calendar.Result) {}
 }

@@ -39,9 +39,9 @@ def post_message(msg):
     result = requests.post(url=SLACK_MESSAGE_API, data=data)
     return result
 
-class Slack(service_pb2_grpc.SlackServicer):
+class Informant(service_pb2_grpc.InformantServicer):
     def SayEvent(self, request, context):
-        msg = "Summary:" + request.summary + "\n" + "Description:" + request.description + "\n"
+        msg = request.body
         res = post_message(msg)
         if res.status_code == 200:
             return event_pb2.Result(result = 1)
@@ -50,7 +50,7 @@ class Slack(service_pb2_grpc.SlackServicer):
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    service_pb2_grpc.add_SlackServicer_to_server(Slack(), server)
+    service_pb2_grpc.add_InformantServicer_to_server(Informant(), server)
     server.add_insecure_port('[::]:' + str(port))
     server.start()
     try:
