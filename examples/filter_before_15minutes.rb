@@ -22,4 +22,5 @@ end
 while json = gets
   events = EventCollection.from_json(json.chomp)
   puts before_15minutes_events(events)
+  STDOUT.flush
 end
