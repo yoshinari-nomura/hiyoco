@@ -46,6 +46,7 @@ Thread.new do
         events << ev 
       end
       puts events.to_json unless events.empty?
+      STDOUT.flush
     end
     sleep 60
   end
