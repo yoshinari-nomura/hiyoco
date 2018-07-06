@@ -19,4 +19,5 @@ while json = gets
     unseen 
   end
   p events_not_out_yet.to_json
+  STDOUT.flush
 end
