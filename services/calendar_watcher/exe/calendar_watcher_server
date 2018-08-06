@@ -24,7 +24,7 @@ require "bundler/setup"
 require "grpc"
 require "hiyoco/calendar_watcher/service_services_pb"
 
-class SounderServer < Hiyoco::CalendarWatcher::Sounder::Service
+class FilterServer < Hiyoco::CalendarWatcher::Filter::Service
   def say_event(event, _unused_call)
     puts event.summary
     Hiyoco::Calendar::Result.new(result: true)
@@ -36,7 +36,7 @@ end
 def main
   s = GRPC::RpcServer.new
   s.add_http2_port('0.0.0.0:50051', :this_port_is_insecure)
-  s.handle(SounderServer)
+  s.handle(FilterServer)
   s.run_till_terminated
 end
 
