@@ -3,10 +3,10 @@ require "pp"
 
 class CalendarWatcherCLI < Clian::Cli
   desc "today_events", "Show today's events."
-  option :format, :default => "json", :desc => "specify output format (json or prety)"
+  option :output, :default => "grpc:localhost:50051", :desc => "specify output format (grpc:host:port or json or prety)"
 
   def today_events()
-    format = options[:format]
+    format, host, port = options[:output].split(":")
     min = Date.today.strftime("%Y-%m-%dT00:00:00+09:00")
     max = Date.today.strftime("%Y-%m-%dT23:59:59+09:00")
 
@@ -26,8 +26,20 @@ class CalendarWatcherCLI < Clian::Cli
       end
     end
 
-    if format == "json"
+    if format == "grpc"
+      stub = Hiyoco::CalendarWatcher::Filter::Stub.new("#{host}:#{port}", :this_channel_is_insecure)
+      today_events.each do |ev|
+        s = create_gprc_date(ev.start_time)
+        e = create_gprc_date(ev.end_time)
+        desc = ev.description || ""
+
+        grpc_ev = Hiyoco::Calendar::Event.new(start: s, end: e, summary: ev.summary, description: desc)
+        puts stub.say_event(grpc_ev).result
+      end
+
+    elsif format == "json"
       puts today_events.to_json
+
     elsif format == "prety"
       today_events.each do |ev|
         puts ev.to_s
@@ -43,6 +55,24 @@ class CalendarWatcherCLI < Clian::Cli
 
   def date_or_datetime(date)
     date.date_time || date.date
+  end
+
+  def create_gprc_date(date)
+    time = date.to_time
+
+    gtime = Google::Protobuf::Timestamp.new
+    gtime.from_time(time)
+    date_or_time = Hiyoco::Calendar::DateOrTime.new
+
+    if date.class == DateTime
+      d = Hiyoco::Calendar::DateTime.new(dateTime: gtime, timeZone: date.zone)
+      date_or_time.dateTime = d
+    else
+      d = Hiyoco::Calendar::Date.new(date: gtime)
+      date_or_time.date = d
+    end
+
+    return date_or_time
   end
 
 end

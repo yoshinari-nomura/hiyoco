@@ -14,3 +14,7 @@ service Sounder {
 service Informant {
   rpc SayEvent (hiyoco.calendar.Event) returns (hiyoco.calendar.Result) {}
 }
+
+service Filter {
+  rpc SayEvent (hiyoco.calendar.Event) returns (hiyoco.calendar.Result) {}
+}
