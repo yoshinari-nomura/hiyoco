@@ -31,7 +31,7 @@ jobs:
           command: |
             set +e
             cd proto
-            ./generate_docs.sh --local
+            bash ./generate_docs.sh --local
       - run:
           name: Push to GitHub
           command: |
