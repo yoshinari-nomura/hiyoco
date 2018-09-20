@@ -1,6 +1,25 @@
-# Golang CircleCI 2.0 configuration file
 #
-# https://circleci.com/docs/2.0/configuration-reference/
+# CircleCI 2.0 config file for hiyoco:
+#  https://github.com/nomlab/hiyoco
+#  https://circleci.com/docs/2.0/configuration-reference/
+#
+# Caveat:
+#   To allow this workflow to push commits,
+#   you should add a writable deploy key-pair.
+#     https://circleci.com/gh/yoshinari-nomura/hiyoco/edit#ssh
+#       - add private key with hostname: github.com
+#     https://github.com/nomlab/hiyoco/settings/keys
+#       - add corresponding public key
+#
+#   To create deploy key-pair in your terminal, do:
+#     ssh-keygen -P "" -C "ci-writable-deploykey" -f ci-writable-deploykey
+#   you will see two files:
+#     ./ci-writable-deploykey
+#     ./ci-writable-deploykey.pub
+#
+# TODO:
+#  + cache docker image.
+#  + avoid building docs if not chaned.
 #
 version: 2
 jobs:
@@ -18,7 +37,6 @@ jobs:
             apt-get autoremove
             rm -rf /var/lib/apt/lists/*
       - checkout
-# 7d:71:1d:9c:dc:23:96:8a:49:65:8e:1d:07:5b:df:c1
       - run:
           name: Setup git repository
           command: |
