@@ -1,27 +1,52 @@
 # Golang CircleCI 2.0 configuration file
 #
-# Check https://circleci.com/docs/2.0/language-go/ for more details
+# https://circleci.com/docs/2.0/configuration-reference/
+#
 version: 2
 jobs:
-  build:
+  generate-doc:
     docker:
-      # specify the version
-      - image: circleci/golang:1.10
-      
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    #### TEMPLATE_NOTE: go expects specific checkout path representing url
-    #### expecting it in the form of
-    ####   /go/src/github.com/circleci/go-tool
-    ####   /go/src/bitbucket.org/circleci/go-tool
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+      - image: pseudomuto/protoc-gen-doc:1.1.0
+      - entrypoint: /bin/bash
     steps:
       - checkout
-
-      # specify any bash command here prefixed with `run: `
       - run:
-          name: echo
-          command: echo test
+          name: Install git
+          command: |
+            set +e
+            apt-get -q -y update
+            apt-get -q -y install git-core
+            apt-get autoremove
+            rm -rf /var/lib/apt/lists/*
+      - run:
+          name: Setup GitHub
+          command: |
+            set +e
+            export USERNAME=$(git log --pretty=tformat:%an | head -1)
+            export EMAIL=$(git log --pretty=tformat:%ae | head -1)
+            git config --global user.email "${EMAIL}"
+            git config --global user.name "${USERNAME}"
+      - run:
+          name: Generate docs/ in proto/
+          command: |
+            set +e
+            cd proto
+            ./generate_docs.sh --local
+      - run:
+          name: Push to GitHub
+          command: |
+            git add doc
+            git commit --quiet -m "[ci skip] Update API docs
+
+            ${CIRCLE_BUILD_URL}"
+            git push origin ${CIRCLE_BRANCH}
+
+workflows:
+  version: 2
+  all-jobs:
+    jobs:
+      - generate-doc:
+          filters:
+            branches:
+              only:
+                - master
