@@ -10,7 +10,7 @@ jobs:
         entrypoint: /bin/bash
     steps:
       - run:
-          name: Install git
+          name: Install git and ssh
           command: |
             set +e
             apt-get -q -y update
@@ -18,8 +18,9 @@ jobs:
             apt-get autoremove
             rm -rf /var/lib/apt/lists/*
       - checkout
+# 7d:71:1d:9c:dc:23:96:8a:49:65:8e:1d:07:5b:df:c1
       - run:
-          name: Setup GitHub
+          name: Setup git repository
           command: |
             set +e
             export USERNAME=$(git log --pretty=tformat:%an | head -1)
