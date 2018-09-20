@@ -6,8 +6,8 @@ version: 2
 jobs:
   generate-doc:
     docker:
-      - image: pseudomuto/protoc-gen-doc
-      - entrypoint: /bin/bash
+      - image: pseudomuto/protoc-gen-doc:1.1.0
+        entrypoint: /bin/bash
     steps:
       - checkout
       - run:
