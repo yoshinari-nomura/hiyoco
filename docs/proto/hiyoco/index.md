@@ -9,16 +9,26 @@
     - [DateTime](#hiyoco.calendar.DateTime)
     - [Event](#hiyoco.calendar.Event)
     - [Result](#hiyoco.calendar.Result)
+    - [Text](#hiyoco.calendar.Text)
   
   
   
+  
+
+- [hiyoco/calendar_watcher/service.proto](#hiyoco/calendar_watcher/service.proto)
+  
+  
+  
+    - [Filter](#hiyoco.calendar_watcher.Filter)
+    - [Informant](#hiyoco.calendar_watcher.Informant)
+    - [Sounder](#hiyoco.calendar_watcher.Sounder)
   
 
 - [hiyoco/informant/service.proto](#hiyoco/informant/service.proto)
   
   
   
-    - [Slack](#hiyoco.informant.Slack)
+    - [Informant](#hiyoco.informant.Informant)
   
 
 - [hiyoco/sounder/service.proto](#hiyoco/sounder/service.proto)
@@ -26,14 +36,6 @@
   
   
     - [Sounder](#hiyoco.sounder.Sounder)
-  
-
-- [hiyoco/calendar_watcher/service.proto](#hiyoco/calendar_watcher/service.proto)
-  
-  
-  
-    - [Slack](#hiyoco.gc_watcher.Slack)
-    - [Sounder](#hiyoco.gc_watcher.Sounder)
   
 
 - [Scalar Value Types](#scalar-value-types)
@@ -128,11 +130,72 @@ Represents return value of result
 
 
 
+
+<a name="hiyoco.calendar.Text"/>
+
+### Text
+Represents plain text
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| body | [string](#string) |  | Text body |
+
+
+
+
+
+ 
+
  
 
  
 
  
+
+
+
+<a name="hiyoco/calendar_watcher/service.proto"/>
+<p align="right"><a href="#top">Top</a></p>
+
+## hiyoco/calendar_watcher/service.proto
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="hiyoco.calendar_watcher.Filter"/>
+
+### Filter
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
+
+
+<a name="hiyoco.calendar_watcher.Informant"/>
+
+### Informant
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
+
+
+<a name="hiyoco.calendar_watcher.Sounder"/>
+
+### Sounder
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
 
  
 
@@ -151,14 +214,14 @@ Represents return value of result
  
 
 
-<a name="hiyoco.informant.Slack"/>
+<a name="hiyoco.informant.Informant"/>
 
-### Slack
+### Informant
 Service for handling SayEvent
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
+| SayEvent | [.hiyoco.calendar.Text](#hiyoco.calendar.Text) | [.hiyoco.calendar.Result](#hiyoco.calendar.Text) |  |
 
  
 
@@ -184,43 +247,7 @@ Service for handling SayEvent
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
-
- 
-
-
-
-<a name="hiyoco/calendar_watcher/service.proto"/>
-<p align="right"><a href="#top">Top</a></p>
-
-## hiyoco/calendar_watcher/service.proto
-
-
- 
-
- 
-
- 
-
-
-<a name="hiyoco.gc_watcher.Slack"/>
-
-### Slack
-Service for handling SayEvent
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
-
-
-<a name="hiyoco.gc_watcher.Sounder"/>
-
-### Sounder
-Service for handling SayEvent
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
+| SayEvent | [.hiyoco.calendar.Text](#hiyoco.calendar.Text) | [.hiyoco.calendar.Result](#hiyoco.calendar.Text) |  |
 
  
 
