@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  generate-doc:
+  generate-docs:
     docker:
       - image: pseudomuto/protoc-gen-doc:1.1.0
         entrypoint: /bin/bash
@@ -36,7 +36,7 @@ jobs:
           name: Push to GitHub
           command: |
             set +e
-            git add doc
+            git add docs
             git commit --quiet -m "[ci skip] Update API docs
 
             ${CIRCLE_BUILD_URL}"
@@ -46,7 +46,7 @@ workflows:
   version: 2
   all-jobs:
     jobs:
-      - generate-doc:
+      - generate-docs:
           filters:
             branches:
               only:
